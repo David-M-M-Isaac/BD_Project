@@ -1,4 +1,4 @@
-FROM mongo:latest
+FROM mongo:8.0.4-rc0-noble
 
 COPY ./data/estacoes_metro.json /data/estacoes_metro.json
 

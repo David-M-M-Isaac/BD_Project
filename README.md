@@ -1,2 +1,2 @@
-# BD_Project
-Utilizar o read me posteriormente para explicar o nosso projeto
+# Para executar este projecto, corre no terminal
+docker-compose up --build
