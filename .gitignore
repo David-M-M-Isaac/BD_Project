@@ -157,26 +157,5 @@ cython_debug/
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
 #  and can be added to the global gitignore or merged into this file.  For a more nuclear
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
-/database/data/diagnostic.data/
-/database/data/index-8-10619187409276881896.wt
-/database/data/collection-4-10619187409276881896.wt
-/database/data/journal/
-/database/data/index-1-10619187409276881896.wt
-/database/data/WiredTiger.lock
-/database/data/collection-0-10619187409276881896.wt
-/database/data/collection-2-10619187409276881896.wt
-/database/data/_mdb_catalog.wt
-/database/data/mongod.lock
-/database/data/index-5-10619187409276881896.wt
-/database/data/WiredTigerHS.wt
-/database/data/WiredTiger.turtle
-/database/data/index-6-10619187409276881896.wt
-/database/data/collection-7-10619187409276881896.wt
-/database/data/WiredTiger
-/database/data/WiredTiger.wt
-/database/data/index-3-10619187409276881896.wt
-/database/data/.mongodb/
-/database/data/sizeStorer.wt
-/database/data/storage.bson
-/database/data/
+.idea/
+database/
