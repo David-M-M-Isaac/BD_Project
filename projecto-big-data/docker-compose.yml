@@ -1,0 +1,22 @@
+services:
+  jupyter:
+    build:
+      context: .
+      dockerfile: Dockerfile.jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./scripts:/home/jovyan/work
+    depends_on:
+      - mongodb
+
+  mongodb:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+      - ./data/estacoes_metro.json:/data/estacoes_metro.json

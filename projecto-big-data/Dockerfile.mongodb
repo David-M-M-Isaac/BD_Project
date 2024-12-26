@@ -1,0 +1,5 @@
+FROM mongo:latest
+
+COPY ./data/estacoes_metro.json /data/estacoes_metro.json
+
+COPY ./scripts/init-mongo.js /docker-entrypoint-initdb.d/init-mongo.js
