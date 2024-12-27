@@ -1,0 +1,11 @@
+FROM mongo:8.0.4-rc0-noble
+
+COPY ./database/data/dell_data.json /database/data/dell_data.json
+COPY ./database/data/ibm_data.json /database/data/ibm_data.json
+COPY ./database/data/intel_data.json /database/data/intel_data.json
+COPY ./database/data/microsoft_data.json /database/data/microsoft_data.json
+COPY ./database/data/nvidia_data.json /database/data/nvidia_data.json
+COPY ./database/data/sony_data.json /database/data/sony_data.json
+COPY ./database/data/youtube_data_us.json /database/data/youtube_data_us.json
+
+COPY ./scripts/init-mongo.js /docker-entrypoint-initdb.d/init-mongo.js
