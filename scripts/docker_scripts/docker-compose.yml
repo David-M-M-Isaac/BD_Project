@@ -1,22 +1,25 @@
+version: '3'
 services:
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb_container  # Nome do contêiner, mas a conexão é com o MongoDB Atlas
+    ports:
+      - "27017:27017"  # Expondo a porta, mas não sendo usada para a conexão com o Atlas
+    volumes:
+      - ./data/db:/data/db  # O volume local pode ser usado para persistir dados, mas não afeta a conexão com o Atlas
+    environment:
+      - MONGO_URL_YOUTUBE=mongodb+srv://davidmisaac1:HyBudT5ZnVvtOlhu@bdproject.rwbzb.mongodb.net/Youtube_Database
+      - MONGO_URL_COMPANY=mongodb+srv://davidmisaac1:HyBudT5ZnVvtOlhu@bdproject.rwbzb.mongodb.net/Company_Database
+
   jupyter:
     build:
-      context: ../../../BD_Project
-      dockerfile: Dockerfile.jupyter
+      dockerfile: Dockerfile.jupyter  # Nome do Dockerfile
     ports:
-      - "8888:8888"
+      - "8888:8888"  # Porta do Jupyter
     volumes:
-      - ./scripts:/home/jovyan/work
+      - ../../:/home/jovyan/work  # Ajuste conforme necessário para o caminho onde você deseja trabalhar
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    command: start-notebook.sh --NotebookApp.token=''  # Comando para iniciar o Jupyter sem token
     depends_on:
       - mongodb
-
-  mongodb:
-    build:
-      context: ../../../BD_Project
-      dockerfile: Dockerfile.mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data:/data/db
-      - ./scripts/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
-      - ./data/estacoes_metro.json:/data/estacoes_metro.json

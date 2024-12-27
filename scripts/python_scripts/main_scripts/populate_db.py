@@ -42,5 +42,5 @@ class DBPopulator:
 
 
 if __name__ == '__main__':
-    path = '../database/csv_files/INTC_data.csv'
+    path = '../database/csv_files/US_yt_data.csv'
     dbpopulator = DBPopulator(path)
