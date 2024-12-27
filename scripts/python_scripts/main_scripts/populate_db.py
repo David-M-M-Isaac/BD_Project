@@ -7,6 +7,10 @@ class DBPopulator:
     def __init__(self, path : str):
         self.__dataframe = self.__decompress_path(path)
         self.__db_obj = Database()
+        print(self.__dataframe.shape)
+
+    def get_database(self, database_name):
+        return self.client[database_name]
 
     @staticmethod
     def __decompress_path(path: str) -> pd.DataFrame:
@@ -25,20 +29,29 @@ class DBPopulator:
         :return:
         """
 
+        if not (1 <= batch_percentage <= 100):
+            raise ValueError("batch_percentage must be between 1 and 100")
+
         db = self.__db_obj.get_database(database_name='Project_Database')
         collection_youtube = db['youtube_data']
 
         documents: list[dict] = self.__transform_into_document()
 
-        self.__db_obj.reset_collection(collection_youtube) # Empties collection_youtube
+        self.__db_obj.reset_collection(collection_youtube)
 
         # BATCH PROCESS
+        batch_size = max(1, int(self.__dataframe.shape[0] * (batch_percentage / 100))) #de forma a nao existir floats e a divisão ocorrer sem problemas
 
-        batch_size = self.__dataframe.shape[0] // batch_percentage
+        for i in range(0, len(documents), batch_size):
+            batch = documents[i:i + batch_size]
+            try:
+                collection_youtube.insert_many(batch, ordered=False)
+                print(f"Inserted batch {i // batch_size + 1} with {len(batch)} documents.")
+            except Exception as e:
+                print(f"Error inserting batch {i // batch_size + 1}: {e}")
 
-        collection_youtube.insert_many(documents, ordered=False)
 
 if __name__ == '__main__':
-    path = '../../../database/csv_files/US_yt_data.csv'
+    path = '../database/csv_files/US_yt_data.csv'
     dbpopulator = DBPopulator(path)
-    dbpopulator.populate_db()
+    dbpopulator.populate_db(batch_percentage=5)
