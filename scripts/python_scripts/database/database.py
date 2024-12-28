@@ -44,7 +44,7 @@ class Database:
         db = self.get_database(database_name)
         collection = db[collection_name]
 
-        #self.reset_collection(collection)
+        self.reset_collection(collection)
 
         documents = self.build_documents(document_type, dataframe)
 

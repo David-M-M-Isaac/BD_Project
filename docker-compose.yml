@@ -11,6 +11,12 @@ services:
       - ./scripts:/home/jovyan/work
     depends_on:
       - mongodb
+    deploy:
+      resources:
+        limits:
+          memory: 11g
+        reservations:
+          memory: 8g
 
   mongodb:
     build:
@@ -28,5 +34,15 @@ services:
       - ./database/data/sony_data.json:/database/data/sony_data.json
       - ./database/data/nvidia_data.json:/database/data/nvidia_data.json
       - ./database/data/youtube_data_us.json:/database/data/youtube_data_us.json
+      - ./database/data/youtube_data_br.json:/database/data/youtube_data_br.json
+      - ./database/data/youtube_data_ca.json:/database/data/youtube_data_ca.json
+      - ./database/data/youtube_data_de.json:/database/data/youtube_data_de.json
+      - ./database/data/youtube_data_fr.json:/database/data/youtube_data_fr.json
+      - ./database/data/youtube_data_gb.json:/database/data/youtube_data_gb.json
+      - ./database/data/youtube_data_in.json:/database/data/youtube_data_in.json
+      - ./database/data/youtube_data_jp.json:/database/data/youtube_data_jp.json
+      - ./database/data/youtube_data_kr.json:/database/data/youtube_data_kr.json
+      - ./database/data/youtube_data_mx.json:/database/data/youtube_data_mx.json
+      - ./database/data/youtube_data_ru.json:/database/data/youtube_data_ru.json
 
 

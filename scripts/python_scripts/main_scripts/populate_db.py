@@ -6,9 +6,9 @@ from scripts.python_scripts.database.document import DocumentYoutube
 class DBPopulator:
     def __init__(self, path : str):
         self.__dataframe = self.__decompress_path(path)
-        #s
+
         dictionary = {
-            '../database/csv_files/youtube_data_us.csv':
+            '../../../database/csv_files/youtube_data_us.csv':
                 {'database': 'Youtube_Database', 'collection': 'youtube_data_us','type':'DocumentYoutube'},
 
             '../database/csv_files/youtube_data_br.csv':
@@ -64,13 +64,11 @@ class DBPopulator:
         print(self.__dataframe.shape)
         self.__db_obj.populate_database( database_name = dictionary[path]["database"], collection_name = dictionary[path]["collection"],batch_percentage = 5,  dataframe = self.__dataframe, document_type = dictionary[path]["type"] )
 
-
     @staticmethod
     def __decompress_path(path: str) -> pd.DataFrame:
         df = pd.read_csv(path)
         return df
 
-
 if __name__ == '__main__':
-    path = '../database/csv_files/youtube_data_jp.csv'
+    path = '../../../database/csv_files/youtube_data_us.csv'
     dbpopulator = DBPopulator(path)

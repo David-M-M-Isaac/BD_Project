@@ -3,7 +3,9 @@ const fs = require('fs');
 // Define the database-to-file mapping
 const databaseMapping = {
     Company_Database: ['dell_data.json', 'ibm_data.json', 'intel_data.json', 'microsoft_data.json', 'nvidia_data.json', 'sony_data.json'],
-    Youtube_Database: ['youtube_data_us.json']
+    Youtube_Database: ['youtube_data_us.json', 'youtube_data_br.json','youtube_data_ca.json','youtube_data_de.json',
+                        'youtube_data_fr.json','youtube_data_gb.json','youtube_data_in.json','youtube_data_jp.json',
+                        'youtube_data_kr.json','youtube_data_mx.json','youtube_data_ru.json']
 };
 
 // Function to load JSON files
@@ -38,15 +40,15 @@ for (const [dbName, files] of Object.entries(databaseMapping)) {
                 targetDb[collectionName].drop();
                 targetDb[collectionName].insertMany(data);
 
-                print(`Data from ${file} imported successfully into the ${collectionName} collection of ${dbName}.`);
+                console.log(`Data from ${file} imported successfully into the ${collectionName} collection of ${dbName}.`);
             } catch (fileError) {
-                print(`An error occurred while importing ${file} into ${dbName}:`);
-                print(fileError);
+                console.log(`An error occurred while importing ${file} into ${dbName}:`);
+                console.log(fileError);
             }
         });
     } catch (dbError) {
-        print(`An error occurred while accessing the database ${dbName}:`);
-        print(dbError);
+        console.log(`An error occurred while accessing the database ${dbName}:`);
+        console.log(dbError);
     }
 }
 
