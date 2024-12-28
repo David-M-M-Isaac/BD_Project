@@ -8,8 +8,38 @@ class DBPopulator:
         self.__dataframe = self.__decompress_path(path)
         #s
         dictionary = {
-            '../database/csv_files/US_yt_data.csv':
-                {'database': 'Youtube_Database', 'collection': 'youtube_data','type':'DocumentYoutube'},
+            '../database/csv_files/youtube_data_us.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_us','type':'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_br.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_br', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_ca.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_ca', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_de.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_de', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_fr.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_fr', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_gb.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_gb', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_in.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_in', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_mx.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_mx', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_ru.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_ru', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_kr.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_kr', 'type': 'DocumentYoutube'},
+
+            '../database/csv_files/youtube_data_jp.csv':
+                {'database': 'Youtube_Database', 'collection': 'youtube_data_jp', 'type': 'DocumentYoutube'},
 
             '../database/csv_files/NVIDIA_data.csv':
                 {'database': 'Company_Database', 'collection': 'nvidia_data','type':'DocumentCompany'},
@@ -42,5 +72,5 @@ class DBPopulator:
 
 
 if __name__ == '__main__':
-    path = '../database/csv_files/US_yt_data.csv'
+    path = '../database/csv_files/youtube_data_jp.csv'
     dbpopulator = DBPopulator(path)
