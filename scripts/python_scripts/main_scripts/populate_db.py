@@ -41,7 +41,7 @@ class DBPopulator:
             '../database/csv_files/youtube_data_jp.csv':
                 {'database': 'Youtube_Database', 'collection': 'youtube_data_jp', 'type': 'DocumentYoutube'},
 
-            '../database/csv_files/NVIDIA_data.csv':
+            '../../../database/csv_files/NVIDIA_data.csv':
                 {'database': 'Company_Database', 'collection': 'nvidia_data','type':'DocumentCompany'},
 
             '../database/csv_files/IBM_data.csv':
@@ -70,5 +70,5 @@ class DBPopulator:
         return df
 
 if __name__ == '__main__':
-    path = '../../../database/csv_files/youtube_data_us.csv'
+    path = '../../../database/csv_files/NVIDIA_data.csv'
     dbpopulator = DBPopulator(path)
