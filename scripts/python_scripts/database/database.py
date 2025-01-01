@@ -18,12 +18,6 @@ class Database:
     def get_database(self, database_name : str):
         return self.__cluster[database_name]
 
-    # def __transform_into_document(self) -> list[dict]:
-    #     self.__dataframe['tags'] = self.__dataframe['tags'].apply(lambda s: s.strip().split('|'))
-    #     df_dict : list[dict] = self.__dataframe.to_dict(orient='records')
-    #     documents : list[dict] = [DocumentCompany(document).get_document() for document in df_dict]
-    #     return documents
-
     @staticmethod
     def build_documents(document_type : str, dataframe : pd.DataFrame) -> list[dict]:
         df_dict: list[dict] = dataframe.to_dict(orient='records')
