@@ -1,16 +1,38 @@
 import streamlit as st
 import plotly.express as px
-from st_keyup import st_keyup
 import datetime
 import pandas as pd
 
+from enum import Enum
 from scripts.python_scripts.database.database import Database
+
+class Options(Enum):
+    COMPANY = {'company': ('Sony', 'Nvidia', 'Microsoft', 'Dell', 'Intel', 'IBM')}
+    PREVIEW = {'type': ('YouTube Views', 'Stocks Value', 'Merged')}
 
 # Database
 database_obj = Database()
-database = database_obj.get_database('Relatorios')
+database = database_obj.get_database('Final_Database')
 
-relatorios_teste = database['teste']
+current_collection = 'youtube'
+
+def retrieve_data(preview_collection : str, company : str):
+    collection = database[preview_collection]
+    x, y, x_label, y_label = [], [], 'Date', ''
+
+    if preview_collection == 'youtube':
+        documents = collection.find({"company": company.lower()})
+        x = [date for date in documents['publishedAt']]
+        y = [views for views in documents['views_count']]
+        y_label = 'Views'
+    elif preview_collection == 'company':
+        documents = collection.find({"company_name": company.lower()})
+        x = [date for date in documents['Date']]
+        y = [adj_close for adj_close in documents['Adj Close']]
+        y_label = 'Adj Close'
+    x_label = 'Date'
+
+    return x, y, x_label, y_label
 
 # Nome do nosso Streamlit
 st.title("DashBoard Data")
@@ -36,12 +58,12 @@ with col1:
 with col2:
     preview_type = st.selectbox(
         label="Select Data to Preview",
-        options=['YouTube Views', 'Stocks Value', 'Merged']
+        options=list(Options.PREVIEW.value['type'])
     )
 with col3:
     company = st.selectbox(
         label="Select Company",
-        options=['Sony', 'Nvidia', 'Dell', 'Microsoft', 'Intel', 'IBM']
+        options=list(Options.COMPANY.value['company'])
     )
 
 # Gráfico de barras das probabilidades
@@ -89,8 +111,10 @@ def plot_data_bar():
     st.plotly_chart(fig)
 
 if preview_type == 'YouTube Views':
+    current_collection = 'youtube'
     plot_data_line(date_interval=[1, 2, 3, 4, 5], data=[2, 4, 3, 10, 7], company=company)
 elif preview_type == 'Stocks Value':
+    current_collection = 'company'
     plot_data_line([1, 2, 3, 4, 5], [5, 3, 2, 10, 15], company)
 
 lower_col1, lower_col2 = st.columns(2)
@@ -108,3 +132,5 @@ with lower_col2:
         upper_container = st.container(height=height)
         upper_container.write("Average Stocks")
         upper_container.metric('x0.97', value='370K', delta=f'{-3}%', delta_color='normal')
+
+print(retrieve_data(preview_collection=current_collection, company='Nvidia'))

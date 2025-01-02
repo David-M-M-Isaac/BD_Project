@@ -1,7 +1,7 @@
 import pandas as pd
 
 from scripts.python_scripts.database.database import Database
-from scripts.python_scripts.database.document import DocumentYoutube
+
 
 class DBPopulator:
     def __init__(self, path : str):

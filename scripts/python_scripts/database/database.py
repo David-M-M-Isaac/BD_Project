@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 from pymongo import MongoClient, collection
 from scripts.python_scripts.database.document import DocumentCompany, DocumentYoutube
 
-
 class Database:
     def __init__(self):
         """
