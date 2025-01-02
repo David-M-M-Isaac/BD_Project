@@ -6,7 +6,8 @@ const databaseMapping = {
     Youtube_Database: ['youtube_data_us.json', 'youtube_data_br.json','youtube_data_ca.json','youtube_data_de.json',
                         'youtube_data_fr.json','youtube_data_gb.json','youtube_data_in.json','youtube_data_jp.json',
                         'youtube_data_kr.json','youtube_data_mx.json','youtube_data_ru.json'],
-    Final_Database: ['Company','Youtube']
+    Final_Database: ['company','youtube'],
+    Final_Database: ['dell','ibm','intel','microsoft','nvidia','sony'],
 
 };
 
