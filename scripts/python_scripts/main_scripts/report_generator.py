@@ -37,7 +37,7 @@ class ReportGenerator:
         print(f'Top Video: {document["top_video"]}')
         print(f'Highest Stock Value: {document["stock_high"]}')
         print(f'Lowest Stock Value: {document["stock_low"]}')
-        print(f'Volume: {document["Volume"]}')
+        print(f'Volume: {document["volume"]}')
         print(f'Last Stock Value: {document["final_stocks"]}')
         print(f'Adjusted Closing Price: {document["stocks_movement"]}')
         print('-' * 30)
