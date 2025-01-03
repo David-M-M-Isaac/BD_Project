@@ -93,8 +93,6 @@ def retrieve_data_plot_bar(time_period : tuple):
 
     df = pd.DataFrame({'company': list(yt.keys()),'yt': list(yt.values()), 'stocks': list(companies.values())})
 
-    print('df: ', df.head())
-
     df['yt'] = df['yt']
     df['stocks'] = df['stocks']
 
@@ -136,6 +134,63 @@ def sum_dataframe(df):
 
     return df.sort_values(by='x')
 
+def format_number(num):
+    if num >= 1_000_000_000_000:  # Trillion
+        return f"{num / 1_000_000_000_000:.1f}T"
+    elif num >= 1_000_000_000:  # Billion
+        return f"{num / 1_000_000_000:.1f}B"
+    elif num >= 1_000_000:  # Million
+        return f"{num / 1_000_000:.1f}M"
+    elif num >= 1_000:  # Thousand
+        return f"{num / 1_000:.1f}K"
+    else:  # Less than a thousand
+        return str(round(num,1))
+
+def retrieve_data_average(time_period : tuple, data_type : str, company : str, min_date : date):
+
+    if len(time_period) == 1:
+        time_period = (time_period[0], time_period[0])
+
+    start_date = datetime.combine(time_period[0], time.min)
+    end_date = datetime.combine(time_period[1], time.max)
+    min_date = datetime.combine(min_date, time.min)
+
+    if data_type == 'yt':
+        collection_yt = database['youtube']
+        query = {"company": company.lower(), "publishedAt": {"$gte": start_date, "$lte": end_date}}
+        query_before = {"company": company.lower(), "publishedAt": {"$gte": min_date, "$lte": start_date}}
+        documents = collection_yt.find(query)
+        documents_before = collection_yt.find(query_before)
+
+        y = [views['view_count'] for views in documents.__copy__()]
+        y_before = [views['view_count'] for views in documents_before.__copy__()]
+
+    else:
+        collection_company = database['company']
+        query = {"company_name": company.lower(), "Date": {"$gte": start_date, "$lte": end_date}}
+        query_before = {"company_name": company.lower(), "Date": {"$gte": min_date, "$lte": start_date}}
+        documents = collection_company.find(query)
+        documents_before = collection_company.find(query_before)
+
+        y = [adj_close['Adj Close'] for adj_close in documents.__copy__()]
+        y_before = [views['Adj Close'] for views in documents_before.__copy__()]
+
+    average_value = np.mean(y)
+    average_value_before = np.mean(y_before)
+
+    print('avg_before', average_value_before)
+
+    performance = 0
+    ratio = round(average_value/average_value_before,2)
+    if np.isnan(average_value):
+        average_value = 0
+    if np.isnan(ratio):
+        ratio = 1
+    else:
+        performance = average_value*100/average_value_before
+        performance = performance - 100
+
+    return format_number(average_value), str(ratio), round(performance,2)
 
 # Nome do nosso Streamlit
 st.title("DashBoard Data")
@@ -245,14 +300,16 @@ lower_col1, lower_col2 = st.columns(2)
 with lower_col1:
     plot_data_bar(retrieve_data_plot_bar(time_period=d))
 with lower_col2:
-    lower_right_col1, lower_right_col2 = st.columns(2)
+    lower_right_col1, lower_right_col2 = st.columns(2,vertical_alignment='center')
     height = 170
     with lower_right_col1:
+        data_average_col1, ratio_col1, performance_col1 = retrieve_data_average(time_period=d,data_type='yt',company=company, min_date=min_value)
         lower_container = st.container(height=height)
-        lower_container.write("Average Views")
-        lower_container.metric('x1.191', value='20K', delta='19.1%', delta_color='normal')
+        lower_container.write("Avg. Views")
+        lower_container.metric(f'x{ratio_col1}', value=data_average_col1, delta=f'{performance_col1}%', delta_color='normal')
 
     with lower_right_col2:
+        data_average_col2, ratio_col2, performance_col2 = retrieve_data_average(time_period=d,data_type='stocks',company=company, min_date=min_value)
         upper_container = st.container(height=height)
-        upper_container.write("Average Stocks")
-        upper_container.metric('x0.97', value='370K', delta=f'{-3}%', delta_color='normal')
+        upper_container.write("Avg. Stocks Value")
+        upper_container.metric(f'x{ratio_col2}', value=data_average_col2, delta=f'{performance_col2}%', delta_color='normal')
