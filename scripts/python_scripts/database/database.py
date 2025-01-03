@@ -52,6 +52,9 @@ class Database:
             except Exception as e:
                 print(f"Error inserting batch {i // batch_size + 1}: {e}")
 
+    def close(self):
+        self.__cluster.close()
+
     @staticmethod
     def reset_collection(c : pymongo.collection.Collection) -> None:
         c.delete_many({})
