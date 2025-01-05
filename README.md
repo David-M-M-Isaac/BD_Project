@@ -22,6 +22,7 @@ Este projeto tem como objetivo analisar a relação entre as visualizações de 
 
 1. **Configuração do Ambiente:**
    - Clone este repositório para sua máquina local.
+   - Da run ao seguinte comando na diretoria do projeto
    ```bash
    docker-compose up --build
 
