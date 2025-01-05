@@ -6,9 +6,7 @@ const databaseMapping = {
     Youtube_Database: ['youtube_data_us.json', 'youtube_data_br.json','youtube_data_ca.json','youtube_data_de.json',
                         'youtube_data_fr.json','youtube_data_gb.json','youtube_data_in.json','youtube_data_jp.json',
                         'youtube_data_kr.json','youtube_data_mx.json','youtube_data_ru.json'],
-    Final_Database: ['company','youtube'],
-    Final_Database: ['dell','ibm','intel','microsoft','nvidia','sony'],
-
+    Final_Database: ['company', 'youtube'],
 };
 
 // Function to load JSON files
@@ -29,29 +27,47 @@ for (const [dbName, files] of Object.entries(databaseMapping)) {
     try {
         const targetDb = db.getSiblingDB(dbName); // Switch to target database
 
-        files.forEach((file) => {
-            try {
-                let data = loadJsonFile(`database/data/${file}`);
+        if (dbName === 'Final_Database') {
+            // Explicitly handle Final_Database
+            files.forEach((collectionName) => {
+                try {
+                    // Drop the collection if it exists
+                    targetDb[collectionName].drop();
 
-                // Ensure all documents have valid ObjectId for _id
-                data = data.map(convertIds);
+                    // Insert a placeholder document to ensure the collection persists
+                    targetDb[collectionName].insertOne({ placeholder: true });
 
-                // Derive collection name from the file name by removing the extension
-                const collectionName = file.split('.').slice(0, -1).join('.');
+                    console.log(`Collection ${collectionName} created and initialized in ${dbName}.`);
+                } catch (collectionError) {
+                    console.log(`An error occurred while creating the ${collectionName} collection in ${dbName}:`);
+                    console.log(collectionError);
+                }
+            });
+        } else {
+            // Process other databases
+            files.forEach((file) => {
+                try {
+                    let data = loadJsonFile(`database/data/${file}`);
 
-                // Drop the collection if it exists and insert data
-                targetDb[collectionName].drop();
-                targetDb[collectionName].insertMany(data);
+                    // Ensure all documents have valid ObjectId for _id
+                    data = data.map(convertIds);
 
-                console.log(`Data from ${file} imported successfully into the ${collectionName} collection of ${dbName}.`);
-            } catch (fileError) {
-                console.log(`An error occurred while importing ${file} into ${dbName}:`);
-                console.log(fileError);
-            }
-        });
+                    // Derive collection name from the file name by removing the extension
+                    const collectionName = file.split('.').slice(0, -1).join('.');
+
+                    // Drop the collection if it exists and insert data
+                    targetDb[collectionName].drop();
+                    targetDb[collectionName].insertMany(data);
+
+                    console.log(`Data from ${file} imported successfully into the ${collectionName} collection of ${dbName}.`);
+                } catch (fileError) {
+                    console.log(`An error occurred while importing ${file} into ${dbName}:`);
+                    console.log(fileError);
+                }
+            });
+        }
     } catch (dbError) {
         console.log(`An error occurred while accessing the database ${dbName}:`);
         console.log(dbError);
     }
 }
-
