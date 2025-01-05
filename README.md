@@ -25,5 +25,14 @@ Este projeto tem como objetivo analisar a relação entre as visualizações de 
    - Da run ao seguinte comando na diretoria do projeto
    ```bash
    docker-compose up --build
+   ```
+   - Instale as dependências necessárias utilizando o seguinte comando:
+     ```bash
+     pip install -r requirements.txt
+     ```
 
-
+2. **Inicie o Dashboard Streamlit:**
+   - Para visualizar os resultados, inicie o Streamlit:
+     ```bash
+     streamlit run app.py
+     ```
