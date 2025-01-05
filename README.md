@@ -25,6 +25,4 @@ Este projeto tem como objetivo analisar a relação entre as visualizações de 
    ```bash
    docker-compose up --build
 
-2. **Inicie o MongoDB em um container Docker:**
-   ```bash
-   docker run --name mongodb -d -p 27017:27017 mongo
+
