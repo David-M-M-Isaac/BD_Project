@@ -22,7 +22,8 @@ Este projeto tem como objetivo analisar a relação entre as visualizações de 
 
 1. **Configuração do Ambiente:**
    - Clone este repositório para sua máquina local.
-   - docker-compose up --build
+   ```bash
+   docker-compose up --build
 
 2. **Inicie o MongoDB em um container Docker:**
    ```bash
